@@ -8,7 +8,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.hasMany(models.Expense, {
+        as: 'ExpenseCreated',
+        foreignKey: 'CreatedBy',
+      });
+      this.hasMany(models.Group, {
+        as: 'GroupCreated',
+        foreignKey: 'CreatedBy',
+      });
+
+      this.belongsToMany(models.Expense, { through: 'ExpenseUser' });
+      this.belongsToMany(models.Group, { through: 'GroupUser' });
     }
   }
   User.init(
@@ -16,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       username: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
+      avator: DataTypes.STRING,
     },
     {
       sequelize,
