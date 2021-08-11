@@ -1,5 +1,7 @@
 const bcrypt = require('bcryptjs');
+const uploader = require('../helpers/uploader');
 const { User } = require('../models');
+
 module.exports = {
   login: async function (req, res) {
     let exist = await User.findOne({
@@ -17,7 +19,6 @@ module.exports = {
         status: false,
         message: 'Invalid password.',
       });
-      return res.send('done');
     }
     return res.json({
       status: false,
@@ -29,17 +30,22 @@ module.exports = {
     let exist = await User.findOne({ where: { email: req.body.email } });
     if (exist) {
       return res.json({
-        status: true,
-        data: await User.create({
-          username: req.body.username,
-          email: req.body.email,
-          password: await bcrypt.hash(req.body.password, 12),
-        }),
+        status: false,
+        message: 'This email already taken.',
       });
     }
+    let url = '';
+    if (req.file) {
+      url = await uploader(req.file);
+    }
     return res.json({
-      status: false,
-      message: 'This email already taken.',
+      status: true,
+      data: await User.create({
+        username: req.body.username,
+        email: req.body.email,
+        password: await bcrypt.hash(req.body.password, 12),
+        avatar: url,
+      }),
     });
   },
 };

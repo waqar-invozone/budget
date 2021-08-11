@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express();
-
 app.use(express.json());
-
 app.get('/', async function (req, res) {
   res.json({
     status: 200,
@@ -12,8 +10,15 @@ app.get('/', async function (req, res) {
 app.use('/api-docs', function (req, res) {
   res.sendFile(`${__dirname}/doc/index.html`);
 });
+
+app.get('/test', (req, res) => {
+  res.sendFile(`${__dirname}/public/test.html`);
+});
+
 app.use('/', require('./routes/index'));
+
 app.use(express.static('doc'));
+app.use(express.static('public'));
 app.use('*', (req, res) => {
   res.json({
     status: 404,

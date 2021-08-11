@@ -1,4 +1,7 @@
-const DB = require('../models').Expense;
+const models = require('../models');
+const DB = models.Expense;
+const upload = require('../helpers/uploader');
+
 module.exports = {
   index: async (req, res) => res.json(await DB.findAll()),
   store: async (req, res) => {
@@ -55,5 +58,18 @@ module.exports = {
       console.log(error);
       return res.status(500).send('Some server error');
     }
+  },
+  uploadFiles: async (req, res) => {
+    req.files.forEach(async (file) => {
+      await models.ExpenseAttachment.create({
+        filePath: await upload(file),
+        expenseId: req.params.id,
+      });
+    });
+
+    return res.json({
+      status: true,
+      message: 'Attachments uploaded successfully',
+    });
   },
 };

@@ -119,3 +119,4 @@ dist
 .DS_Store
 .vscode
 doc
+config/cloudinary.js

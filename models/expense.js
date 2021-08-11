@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.User, { as: 'creator', foreignKey: 'createdBy' });
       this.belongsToMany(models.User, { through: 'ExpenseUser' });
-      this.hasMany(models.ExpenseAttachment);
+      this.hasMany(models.ExpenseAttachment, { foreignKey: 'expenseId' });
     }
   }
   Expense.init(
