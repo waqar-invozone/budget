@@ -21,5 +21,5 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'ExpenseAttachment',
     }
   );
-  return Expense;
+  return ExpenseAttachment;
 };
