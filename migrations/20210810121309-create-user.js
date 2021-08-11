@@ -25,6 +25,9 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      apiToken: {
+        type: Sequelize.UUID,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.hasMany(models.Expense, {
         as: 'ExpenseCreated',
-        foreignKey: 'CreatedBy',
+        foreignKey: 'createdBy',
       });
       this.hasMany(models.Group, {
         as: 'GroupCreated',
-        foreignKey: 'CreatedBy',
+        foreignKey: 'createdBy',
       });
 
       this.belongsToMany(models.Expense, { through: 'ExpenseUser' });
@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
       avator: DataTypes.STRING,
+      apiToken: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
     },
     {
       sequelize,

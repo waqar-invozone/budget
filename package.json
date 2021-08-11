@@ -6,9 +6,11 @@
   "scripts": {
     "lint": "eslint --fix index.js",
     "format": "prettier -w .",
-    "start": "nodemon index"
+    "start": "nodemon index",
+    "docs": "apidoc -i apidoc -o doc/"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
