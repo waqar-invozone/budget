@@ -52,4 +52,10 @@ module.exports = {
       return res.status(500).send('Some server error');
     }
   },
+  addUser: async (req, res) => {
+    return res.json({ status: true });
+  },
+  removeUser: async (req, res) => {
+    return res.json({ status: true });
+  },
 };

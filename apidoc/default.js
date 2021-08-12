@@ -288,3 +288,27 @@
  * @apiuse NotFoundError
  * @apiuse ServerError
  */
+
+/**
+ * @api {post} /groups/user/:group_id/:user_id Add User
+ * @apiVersion 1.0.0
+ * @apiName Add User
+ * @apiGroup Groups
+ * @apiPermission authenticated api token
+ * @apiParam {Number} id The group id
+ * @apiSuccess (Success 200) {Boolean} status true/false
+ * @apiuse NotFoundError
+ * @apiuse ServerError
+ */
+
+/**
+ * @api {delete} /groups/user/:group_id/:user_id Remove User
+ * @apiVersion 1.0.0
+ * @apiName Remove User
+ * @apiGroup Groups
+ * @apiPermission authenticated api token
+ * @apiParam {Number} id The group id
+ * @apiSuccess (Success 200) {Boolean} status true/false
+ * @apiuse NotFoundError
+ * @apiuse ServerError
+ */
