@@ -29,8 +29,6 @@ module.exports = {
       });
     } catch (error) {
       next(error);
-    } finally {
-      await cleanUp();
     }
   },
 
@@ -58,8 +56,6 @@ module.exports = {
       });
     } catch (error) {
       next(error);
-    } finally {
-      await cleanUp();
     }
   },
 };

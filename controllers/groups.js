@@ -5,8 +5,6 @@ module.exports = {
       return res.json(await DB.findAll());
     } catch (error) {
       next(error);
-    } finally {
-      await cleanUp();
     }
   },
 
@@ -22,8 +20,6 @@ module.exports = {
       });
     } catch (error) {
       next(error);
-    } finally {
-      await cleanUp();
     }
   },
   show: async (req, res) => {
@@ -40,8 +36,6 @@ module.exports = {
         );
     } catch (error) {
       next(error);
-    } finally {
-      await cleanUp();
     }
   },
   update: async (req, res) => {
@@ -57,8 +51,6 @@ module.exports = {
       return res.json({ status: true, updated: result });
     } catch (error) {
       next(error);
-    } finally {
-      await cleanUp();
     }
   },
   delete: async (req, res) => {
@@ -69,8 +61,6 @@ module.exports = {
       return res.status(200).json({ status: true, deleted: result });
     } catch (error) {
       next(error);
-    } finally {
-      await cleanUp();
     }
   },
   addUser: async (req, res) => {
@@ -78,8 +68,6 @@ module.exports = {
       return res.json({ status: true });
     } catch (error) {
       next(error);
-    } finally {
-      await cleanUp();
     }
   },
   removeUser: async (req, res) => {
@@ -87,8 +75,6 @@ module.exports = {
       return res.json({ status: true });
     } catch (error) {
       next(error);
-    } finally {
-      await cleanUp();
     }
   },
 };
