@@ -82,16 +82,21 @@ module.exports = {
   },
   uploadFiles: async (req, res) => {
     try {
-      req.files.forEach(async (file) => {
-        await models.ExpenseAttachment.create({
-          filePath: await upload(file),
-          expenseId: req.params.id,
-        });
-      });
+      let ouptut = [];
+      if (req.files.lenngth > 0)
+        for (let i = 0; i <= req.files.lenngth; i++) {
+          output.push(
+            await models.ExpenseAttachment.create({
+              filePath: await upload(req.files[i]),
+              expenseId: req.params.id,
+            })
+          );
+        }
 
       return res.json({
         status: true,
         message: 'Attachments uploaded successfully.',
+        data: output,
       });
     } catch (error) {
       next(error);
