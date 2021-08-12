@@ -1,33 +1,52 @@
 const models = require('../models');
 const DB = models.Expense;
 const upload = require('../helpers/uploader');
+const NotFoundError = require('../exceptions/notFoundError');
 
 module.exports = {
-  index: async (req, res) => res.json(await DB.findAll()),
+  index: async (req, res) => {
+    try {
+      return res.json(await DB.findAll());
+    } catch (error) {
+      next(error);
+    } finally {
+      await cleanUp();
+    }
+  },
   store: async (req, res) => {
     try {
       let data = req.body;
-      return res.json(
-        await DB.create({
+      return res.json({
+        status: true,
+        data: await DB.create({
           type: data.type,
           amount: data.amount,
           description: data.description,
           createdBy: data.createdBy,
-        })
-      );
+        }),
+      });
     } catch (error) {
-      console.log(error);
-      return res.status('500').send(error);
+      next(error);
+    } finally {
+      await cleanUp();
     }
   },
   show: async (req, res) => {
     try {
       const exist = await DB.findByPk(req.params.id);
-      if (exist) return res.json(exist);
-      else return res.status(404).send('Not Found');
+      if (exist)
+        return res.json({
+          status: true,
+          data: exist,
+        });
+      else
+        return next(
+          new NotFoundError(`Expense with id:${req.params.id} not found.`)
+        );
     } catch (error) {
-      console.log(error);
-      return res.status(500).send('Server Error');
+      next(error);
+    } finally {
+      await cleanUp();
     }
   },
   update: async (req, res) => {
@@ -42,10 +61,11 @@ module.exports = {
         },
         { where: { id: req.params.id } }
       );
-      return res.json({ updated: result });
+      return res.json({ status: true, updated: result });
     } catch (error) {
-      console.log(error);
-      return res.status(500).send('Server Error');
+      next(error);
+    } finally {
+      await cleanUp();
     }
   },
   delete: async (req, res) => {
@@ -53,23 +73,35 @@ module.exports = {
       const result = await DB.destroy({
         where: { id: req.params.id },
       });
-      return res.status(200).json({ deleted: result });
+      return res.status(200).json({ status: true, deleted: result });
     } catch (error) {
-      console.log(error);
-      return res.status(500).send('Some server error');
+      next(error);
+    } finally {
+      await cleanUp();
     }
   },
   uploadFiles: async (req, res) => {
-    req.files.forEach(async (file) => {
-      await models.ExpenseAttachment.create({
-        filePath: await upload(file),
-        expenseId: req.params.id,
-      });
-    });
+    try {
+      let ouptut = [];
+      if (req.files.lenngth > 0)
+        for (let i = 0; i <= req.files.lenngth; i++) {
+          output.push(
+            await models.ExpenseAttachment.create({
+              filePath: await upload(req.files[i]),
+              expenseId: req.params.id,
+            })
+          );
+        }
 
-    return res.json({
-      status: true,
-      message: 'Attachments uploaded successfully',
-    });
+      return res.json({
+        status: true,
+        message: 'Attachments uploaded successfully.',
+        data: output,
+      });
+    } catch (error) {
+      next(error);
+    } finally {
+      await cleanUp();
+    }
   },
 };

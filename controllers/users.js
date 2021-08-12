@@ -1,12 +1,19 @@
 const DB = require('../models').User;
 const { hash } = require('bcryptjs');
 module.exports = {
-  index: async (req, res) =>
-    res.json(
-      await DB.findAll({
-        attributes: { exclude: ['password', 'apiToken'] },
-      })
-    ),
+  index: async (req, res) => {
+    try {
+      return res.json(
+        await DB.findAll({
+          attributes: { exclude: ['password', 'apiToken'] },
+        })
+      );
+    } catch (error) {
+      next(error);
+    } finally {
+      await cleanUp();
+    }
+  },
   store: async (req, res) => {
     try {
       let data = req.body;
@@ -18,10 +25,11 @@ module.exports = {
         avator: null,
       });
 
-      return res.json(user);
+      return res.json({ status: true, data: user });
     } catch (error) {
-      console.log(error);
-      return res.status('500').send(error);
+      next(error);
+    } finally {
+      await cleanUp();
     }
   },
   show: async (req, res) => {
@@ -30,11 +38,19 @@ module.exports = {
         where: { id: req.params.id },
         attributes: { exclude: ['password', 'apiToken'] },
       });
-      if (user) return res.json(user);
-      else return res.status(404).send('Not Found');
+      if (exist)
+        return res.json({
+          status: true,
+          data: exist,
+        });
+      else
+        return next(
+          new NotFoundError(`User with id:${req.params.id} not found.`)
+        );
     } catch (error) {
-      console.log(error);
-      return res.status(500).send('Server Error');
+      next(error);
+    } finally {
+      await cleanUp();
     }
   },
   update: async (req, res) => {
@@ -45,10 +61,11 @@ module.exports = {
         { username: data.username, email: data.email },
         { where: { id } }
       );
-      return res.json({ updated: result });
+      return res.json({ status: true, updated: result });
     } catch (error) {
-      console.log(error);
-      return res.status(500).send('Server Error');
+      next(error);
+    } finally {
+      await cleanUp();
     }
   },
   delete: async (req, res) => {
@@ -57,10 +74,11 @@ module.exports = {
       const result = await DB.destroy({
         where: { id },
       });
-      return res.status(200).json({ deleted: result });
+      return res.status(200).json({ status: true, deleted: result });
     } catch (error) {
-      console.log(error);
-      return res.status(500).send('Some server error');
+      next(error);
+    } finally {
+      await cleanUp();
     }
   },
 };
