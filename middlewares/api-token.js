@@ -10,12 +10,15 @@ module.exports = {
       if (exist) {
         return next();
       }
-      return res.status(401).send('Invalid Token');
+      return res.status(401).json({
+        status: 401,
+        message: 'Invalid Token',
+      });
     }
-    return res
-      .status(401)
-      .send(
-        'No token found in request, this route is protecetd please provide a valid token'
-      );
+    return res.status(401).json({
+      status: 401,
+      message:
+        'This is protecetd route, Please provide a valid token in request.',
+    });
   },
 };
