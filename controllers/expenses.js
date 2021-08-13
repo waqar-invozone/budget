@@ -2,6 +2,7 @@ const models = require('../models');
 const DB = models.Expense;
 const upload = require('../helpers/uploader');
 const NotFoundError = require('../exceptions/notFoundError');
+const eventEmitter = require('../helpers/events');
 
 module.exports = {
   index: async (req, res) => {
@@ -14,14 +15,17 @@ module.exports = {
   store: async (req, res) => {
     try {
       let data = req.body;
+      const expense = await DB.create({
+        type: data.type,
+        amount: data.amount,
+        description: data.description,
+        createdBy: data.createdBy,
+      });
+      // for practice emit an event to email
+      eventEmitter.emit('expenseCreated', expense);
       return res.json({
         status: true,
-        data: await DB.create({
-          type: data.type,
-          amount: data.amount,
-          description: data.description,
-          createdBy: data.createdBy,
-        }),
+        data: expense,
       });
     } catch (error) {
       next(error);

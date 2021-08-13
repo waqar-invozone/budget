@@ -21,6 +21,14 @@ module.exports = (sequelize, DataTypes) => {
       createdBy: DataTypes.INTEGER,
     },
     {
+      hooks: {
+        beforeCreate: (obj, options) => {
+          console.log('before create');
+        },
+        afterCreate: (obj, options) => {
+          console.log('created !!');
+        },
+      },
       sequelize,
       modelName: 'Expense',
     }
