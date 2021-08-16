@@ -6,12 +6,12 @@
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
+  "testing": {
+    "username": "postgres",
+    "password": 12345678,
+    "database": "BudgetTest",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "production": {
     "username": "root",
