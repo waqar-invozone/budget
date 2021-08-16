@@ -1,5 +1,5 @@
 'use strict';
-import { hash } from 'bcryptjs';
+const { hash } = require('bcryptjs');
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     /**

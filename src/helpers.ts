@@ -4,8 +4,8 @@ import nodemailer from 'nodemailer';
 const { logger } = require('./exceptions/handler');
 const cloudinary = require('cloudinary');
 
-cloudinary.config(require('./config/cloudinary'));
-const transporter = nodemailer.createTransport(require('./config/mailHost'));
+cloudinary.config(require('../config/cloudinary'));
+const transporter = nodemailer.createTransport(require('../config/mailHost'));
 
 export const uploader = async function (file): Promise<string> {
   let extension = file.originalname.split('.').pop();
