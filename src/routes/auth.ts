@@ -1,8 +1,8 @@
 const AuthController = require('../controllers/auth');
 
 import Multer from 'multer';
-import express from 'express';
-const router = express.Router();
+import { Router } from 'express';
+const router = Router();
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
@@ -13,4 +13,4 @@ const multer = Multer({
 router.post('/login', AuthController.login);
 router.post('/register', multer.single('image'), AuthController.register);
 
-module.exports = router;
+export default router;

@@ -15,4 +15,4 @@ router.put('/:id', UserController.update);
 
 router.delete('/:id', UserController.delete);
 
-module.exports = router;
+export default router;

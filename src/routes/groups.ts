@@ -19,4 +19,4 @@ router.post('/user/:group_id/:user_id', GroupController.addUser);
 
 router.delete('/user/:group_id/:user_id', GroupController.removeUser);
 
-module.exports = router;
+export default router;

@@ -4,6 +4,7 @@ import { logErrorMiddleware, returnError } from './middlewares';
 import { NotFoundError } from './exceptions/handler';
 import cors from 'cors';
 import { scheduler } from './helpers';
+import routes from './routes';
 dotnet.config();
 const app = express();
 
@@ -18,7 +19,7 @@ app.use('/api-docs', function (req, res) {
   res.sendFile(`${__dirname}/doc/index.html`);
 });
 // Adding all routes
-app.use('/', require('./routes/index'));
+app.use('/', routes);
 //
 app.use(express.static('doc'));
 
