@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'createdBy',
       });
 
-      this.belongsToMany(models.Expense, { through: 'ExpenseUser' });
-      this.belongsToMany(models.Group, { through: 'GroupUser' });
+      // this.belongsToMany(models.Expense, { through: 'ExpenseUser' });
+      // this.belongsToMany(models.Group, { through: 'GroupUser' });
     }
   }
   User.init(

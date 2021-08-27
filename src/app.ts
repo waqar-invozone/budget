@@ -14,6 +14,7 @@ if (allowedSites.length > 0) app.use(cors({ origin: allowedSites }));
 else app.use(cors());
 
 app.use(express.json());
+
 // Api Docs
 app.use('/api-docs', function (req, res) {
   res.sendFile(`${__dirname}/doc/index.html`);
@@ -37,9 +38,11 @@ process.on('unhandledRejection', (error) => {
 process.on('uncaughtException', (error, req, res, next) => {
   returnError(error, req, res, next);
 });
+
 // cron jobs
 scheduler.init();
+
 // server init
-app.listen(3000, () => {
-  console.log(`Server started at http://localhost:3000`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server started at http://localhost:${process.env.PORT}`);
 });

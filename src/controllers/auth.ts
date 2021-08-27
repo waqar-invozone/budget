@@ -6,7 +6,6 @@ module.exports = {
   login: async function (req, res, next) {
     try {
       let exist = await User.findOne({
-        attributes: ['email', 'password', 'apiToken'],
         where: { email: req.body.email },
       });
       if (exist) {
@@ -15,7 +14,7 @@ module.exports = {
         ) {
           return res.json({
             status: true,
-            data: { apiToken: exist.apiToken },
+            data: exist,
           });
         }
         return res.json({

@@ -1,12 +1,13 @@
 const { User } = require('./models');
 import { logError } from './exceptions/handler';
 export async function apiToken(req, res, next) {
-  if (typeof req.body._token !== 'undefined') {
-    const _token = req.body._token;
+  if (typeof req.headers.token !== 'undefined') {
+    const token = req.headers.token;
     const exist = await User.findOne({
-      where: { apiToken: _token },
+      where: { apiToken: token },
     });
     if (exist) {
+      req['authUser'] = exist;
       return next();
     }
     return res.status(401).json({
@@ -26,11 +27,13 @@ export function logErrorMiddleware(err, req, res, next) {
   next(err);
 }
 
-export function returnError(err, req, res, next) {
-  return res.json({
-    status: err.statusCode || 500,
-    message: err.message || 'Some thing went wrong',
-  });
+export function returnError(error, req, res, next) {
+  try {
+    return res.json({
+      status: error.statusCode || 500,
+      message: error.message || 'Some thing went wrong',
+    });
+  } catch (er) {}
 }
 
 export default { apiToken, logErrorMiddleware, returnError };

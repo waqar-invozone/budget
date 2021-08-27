@@ -9,7 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.belongsTo(models.User, { as: 'creator', foreignKey: 'createdBy' });
-      this.belongsToMany(models.User, { through: 'GroupUser' });
+      this.belongsToMany(models.User, {
+        as: 'users',
+        through: 'GroupUser',
+        foreignKey: 'groupId',
+        otherKey: 'userId',
+      });
     }
   }
   Group.init(
