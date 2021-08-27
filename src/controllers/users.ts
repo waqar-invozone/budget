@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const DB = require('../models').User;
 import { hash } from 'bcryptjs';
 import { NotFoundError } from '../exceptions/handler';

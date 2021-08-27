@@ -5,18 +5,14 @@ import express from 'express';
 const router = express.Router();
 router.use(apiToken);
 
-router.get('/', Controller.index);
+router.get('/:user_id', Controller.index);
 
-router.post('/', Controller.store);
+// router.post('/', Controller.store);
 
-router.get('/:id', Controller.show);
+// router.get('/:id', Controller.show);
 
-router.put('/:id', Controller.update);
+// router.put('/:id', Controller.update);
 
-router.delete('/:id', Controller.delete);
-
-router.post('/user/:group_id/:user_id', Controller.addUser);
-
-router.delete('/user/:group_id/:user_id', Controller.removeUser);
+// router.delete('/:id', Controller.delete);
 
 export default router;
