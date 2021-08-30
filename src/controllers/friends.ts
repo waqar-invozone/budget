@@ -51,20 +51,20 @@ module.exports = {
 
   accept: async (req, res, next) => {
     try {
-      await DB.Friend.update(
+      const [result] = await DB.Friend.update(
         {
-          satus: 'accept',
+          status: 'accept',
         },
         {
           where: {
-            friendId: req.params.id,
-            userId: req.authUser.id,
+            friendId: req.authUser.id,
+            userId: req.params.id,
           },
         }
       );
 
       return res.json({
-        status: true,
+        status: result,
         data: { message: 'done' },
       });
     } catch (error) {
@@ -74,20 +74,20 @@ module.exports = {
 
   reject: async (req, res, next) => {
     try {
-      await DB.Friend.update(
+      const [result] = await DB.Friend.update(
         {
           satus: 'reject',
         },
         {
           where: {
-            friendId: req.params.id,
-            userId: req.authUser.id,
+            friendId: req.authUser.id,
+            userId: req.params.id,
           },
         }
       );
 
       return res.json({
-        status: true,
+        status: result,
         data: { message: 'done' },
       });
     } catch (error) {

@@ -77,14 +77,27 @@ module.exports = {
   },
   addUser: async (req, res, next) => {
     try {
-      return res.json({ status: true });
+      const group = await DB.findOne({ where: { id: req.params.group_id } });
+      if (group) {
+        const result = await group.addUser(req.params.user_id);
+        return res.json({
+          status: result != null,
+          message: 'User added to group',
+        });
+      }
+      return res.json({ status: false, message: 'Group not found' });
     } catch (error) {
       next(error);
     }
   },
   removeUser: async (req, res, next) => {
     try {
-      return res.json({ status: true });
+      const group = await DB.findOne({ where: { id: req.params.group_id } });
+      if (group) {
+        await group.removeUser(req.params.user_id);
+        return res.json({ status: true, message: 'User removed from group' });
+      }
+      return res.json({ status: false, message: 'Group not found' });
     } catch (error) {
       next(error);
     }
