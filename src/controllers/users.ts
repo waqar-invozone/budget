@@ -74,4 +74,31 @@ module.exports = {
       next(error);
     }
   },
+  search: async (req, res, next) => {
+    try {
+      let slug = req.params.slug;
+      let id = req.authUser.id;
+      const result = await DB.findAll({
+        where: {
+          [Op.or]: [
+            {
+              username: {
+                [Op.like]: `%${slug}%`,
+              },
+            },
+
+            {
+              email: {
+                [Op.like]: `%${slug}%`,
+              },
+            },
+          ],
+          [Op.not]: [{ id }],
+        },
+      });
+      return res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  },
 };

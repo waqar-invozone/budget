@@ -23,6 +23,12 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+      status: {
+        allowNull: false,
+        type: Sequelize.ENUM,
+        values: ['pending', 'accept', 'reject'],
+        defaultValue: 'pending',
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

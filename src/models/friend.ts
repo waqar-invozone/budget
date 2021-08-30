@@ -8,11 +8,18 @@ module.exports = (sequelize, DataTypes) => {
     {
       friendId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
+      status: {
+        type: DataTypes.ENUM,
+        values: ['pending', 'accept', 'reject'],
+        defaultValue: 'pending',
+      },
     },
     {
       sequelize,
       modelName: 'Friend',
+      timestamps: false,
     }
   );
+  Friend.removeAttribute('id');
   return Friend;
 };

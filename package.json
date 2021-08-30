@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint --fix index.js",
     "format": "prettier -w .",
-    "build:w": "nodemon -e tsc --exec \"yarn build\"",
+    "build:w": "nodemon -e ts --exec \"yarn build\"",
     "build:c": "rm -rf ./dist/*",
     "build": "tsc",
     "start": "nodemon dist/app.js",
